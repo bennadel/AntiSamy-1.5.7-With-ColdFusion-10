@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<anti-samy-rules
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="antisamy.xsd">
+
+	<directives>
+		<directive name="embedStyleSheets" value="false" />
+		<directive name="formatOutput" value="true" />
+		<directive name="maxInputSize" value="100000" />
+		<directive name="nofollowAnchors" value="true" />
+		<directive name="omitDoctypeDeclaration" value="true" />
+		<directive name="omitXmlDeclaration" value="true" />
+		<directive name="onUnknownTag" value="remove" />
+		<directive name="useXHTML" value="true" />
+	</directives>
+
+	<tag-rules>
+		<tag name="a" action="validate">
+			<attribute name="href" onInvalid="filterTag">
+				<regexp-list>
+					<regexp value="https?://[A-Za-z0-9]+[~a-zA-Z0-9-_\.@\#\$%&amp;;:,\?=/\+!\(\)]*" />
+				</regexp-list>
+			</attribute>
+
+			<attribute name="rel">
+				<literal-list>
+					<literal value="nofollow" />
+				</literal-list>
+			</attribute>
+		</tag>
+		<tag name="b" action="validate" />
+		<tag name="blockquote" action="validate" />
+		<tag name="code" action="validate">
+			<attribute name="class">
+				<regexp-list>
+					<regexp value="language-[a-zA-Z0-9]+" />
+				</regexp-list>
+			</attribute>
+		</tag>
+		<tag name="em" action="validate" />
+		<tag name="i" action="validate" />
+		<tag name="li" action="validate" />
+		<tag name="ol" action="validate" />
+		<tag name="p" action="validate" />
+		<tag name="pre" action="validate">
+			<attribute name="class">
+				<regexp-list>
+					<regexp value="language-[a-zA-Z0-9]+" />
+				</regexp-list>
+			</attribute>
+		</tag>
+		<tag name="strong" action="validate" />
+		<tag name="ul" action="validate" />
+	</tag-rules>
+
+</anti-samy-rules>
