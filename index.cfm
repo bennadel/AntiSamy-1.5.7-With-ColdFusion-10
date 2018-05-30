@@ -13,6 +13,7 @@
 
 	<p>
 		<strong>Thanks for stopping by!</strong> <em>You Rock!</em>
+		<blink>Woot!</blink>
 	</p>
 
 </cfsavecontent>
@@ -46,14 +47,7 @@
 
 	// Scan the untrusted HTML. The results will contain both error messages and the
 	// sanitized HTML output.
-	result = application.antisamyJavaLoader.switchThreadContextClassLoader(
-		scan__inProperContext,
-		{
-			antisamy: antisamy,
-			content: unsafeHtml,
-			policy: policy
-		}
-	);
+	result = antisamy.scan( javaCast( "string", unsafeHtml ), policy );
 
 	writeOutput( encodeForHtml( result.getCleanHTML() ));
 	writeOutput( "<hr />" );
@@ -82,30 +76,6 @@
 		) {
 
 		return( PolicyClass.getInstance( javaCast( "string", policyFilePath ) ) );
-
-	}
-
-	/**
-	* I am intended to be INVOKED BY THE JAVALOADER. I run the scan() method in a context
-	* that forces the classes to be loaded from the AntiSamy JavaLoader. This gets around
-	* issues in which Java classes try to load dependencies from the wrong Class Loader.
-	* 
-	* NOTE: While in this method, you cannot access the core ColdFusion classes. As such,
-	* this method should do AS LITTLE AS POSSIBLE such that it can return to the normal
-	* execution context as fast as possible.
-	* 
-	* @antisamy I am the AntiSamy instance.
-	* @content I am the unsafe HTML content being scanned.
-	* @policy I am the security policy to use in the scan.
-	* @output false
-	*/
-	public any function scan__inProperContext(
-		required any antisamy,
-		required string content,
-		required any policy
-		) {
-
-		return( antisamy.scan( javaCast( "string", content ), policy ) );
 
 	}
 
